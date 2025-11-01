@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviamasters: Играть</title>
+    
+    <link rel="icon" href="images/plane.png" type="image/png">
+
+    <style>
+        /* --- Подключение твоих шрифтов --- */
+        @font-face {
+            font-family: 'Etude Noire';
+            src: url('fonts/Etude Noire Medium.ttf') format('truetype');
+            font-weight: 500;
+        }
+
+        @font-face {
+            font-family: 'Panton Narrow';
+            src: url('fonts/PantonNarrowDemo-Black.otf') format('opentype');
+            font-weight: 900;
+        }
+
+        /* --- Основные стили --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Etude Noire', 'Arial', sans-serif; 
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden; 
+            position: relative; 
+            
+            background-image: url('images/fon.png');
+            background-repeat: no-repeat;
+            background-attachment: fixed; 
+            background-position: center center;
+            background-size: cover; 
+        }
+        
+        /* --- Самолет 'plane.png' рядом с кнопкой "Испытать удачу" --- */
+        .plane-near-button {
+            position: absolute;
+            right: -80px; 
+            bottom: -20px; 
+            max-width: 120px; 
+            transform: rotate(-10deg); 
+            z-index: 3; 
+            pointer-events: none;
+        }
+
+        /* --- Обертка контента --- */
+        .wrapper {
+            max-width: 1200px; 
+            margin: 0 auto;
+            padding: 20px;
+            position: relative; 
+            z-index: 2; 
+        }
+
+        /* --- Шапка --- */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-top: 20px;
+        }
+
+        .logo {
+            max-width: 800px; 
+            width: 100%;
+            margin: 0 auto 30px auto; 
+        }
+
+        header h1 {
+            font-family: 'Panton Narrow', sans-serif;
+            font-size: 85px; 
+            font-weight: 900;
+            color: #000000;
+            margin-bottom: 10px;
+            line-height: 1.1;
+        }
+
+        header h1 span {
+            font-family: 'Panton Narrow', sans-serif; 
+            color: #f39c12; 
+            font-size: 85px; 
+            font-weight: 900; 
+            display: block;
+        }
+
+        .header-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        /* --- Общие стили для кнопок --- */
+        .btn {
+            display: inline-block; 
+            background-color: #f39c12; 
+            color: #ffffff;
+            padding: 15px 55px; 
+            border-radius: 30px;
+            text-decoration: none;
+            font-family: 'Etude Noire', sans-serif;
+            font-weight: 500;
+            font-size: 20px; 
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative; 
+            cursor: pointer;
+        }
+
+        .btn-with-icon {
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center;
+            gap: 12px; 
+            padding: 15px 40px; 
+        }
+
+        .btn-icon {
+            height: 22px; 
+            width: 22px;
+            display: block;
+        }
+
+        .btn:hover {
+            background-color: #e67e22; 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        /* --- Общие стили для заголовков секций --- */
+        h2 {
+            font-family: 'Panton Narrow', sans-serif;
+            text-align: center;
+            font-size: 70px; 
+            font-weight: 900;
+            margin-bottom: 40px;
+            color: #000000; 
+        }
+
+        /* --- Секция "Об игре" (с подкладкой) --- */
+        .about {
+            margin-bottom: 80px;
+            padding: 30px; 
+            background-color: rgba(255, 255, 255, 0.7); 
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center; 
+            justify-content: space-between; 
+        }
+
+        .about-video {
+            flex: 0 0 46%; 
+        }
+
+        .about-video img {
+            width: 100%;
+            border-radius: 20px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            display: block; 
+        }
+
+        .about-text {
+            flex: 0 0 50%; 
+        }
+
+        .about-text h3 {
+            font-family: 'Etude Noire', sans-serif;
+            color: #f39c12; 
+            font-size: 32px; 
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .about-text p {
+            font-family: 'Etude Noire', sans-serif; 
+            font-size: 16px;
+            margin-bottom: 30px;
+            color: #333; 
+        }
+
+        .about-text .btn {
+            background-color: #f39c12; 
+            padding: 12px 35px; 
+        }
+
+        .about-text .btn:hover {
+            background-color: #e67e22;
+        }
+
+        /* --- Секция "Плюсы игры" (с подкладкой) --- */
+        .features {
+            margin-bottom: 60px;
+            padding: 30px; 
+            background-color: rgba(255, 255, 255, 0.7); 
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            gap: 25px;
+        }
+
+        .feature-item {
+            background-color: #ffffff; 
+            border: 1px solid #eee;
+            padding: 25px;
+            border-radius: 15px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .feature-item h4 {
+            font-family: 'Etude Noire', sans-serif;
+            color: #f39c12; 
+            font-size: 22px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .feature-item p {
+            font-family: 'Etude Noire', sans-serif; 
+            font-size: 15px;
+            color: #333;
+        }
+
+        /* --- Подвал (с подкладкой) --- */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            background-color: rgba(255, 255, 255, 0.7); 
+            border-radius: 20px;
+            margin-top: 40px;
+            font-size: 16px; 
+            color: #000000; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            font-weight: 500; 
+        }
+
+        footer p {
+            margin-bottom: 5px;
+        }
+        
+        /* --- ИСПРАВЛЕНИЕ: 3. Стили для Pop-up (с анимацией) --- */
+        .popup {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+            /* Стили для анимации */
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        /* Класс, который добавляет JS, чтобы показать окно */
+        .popup-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-content {
+            font-family: 'Etude Noire', sans-serif;
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            max-width: 400px;
+            
+            /* Анимация "выпрыгивания" */
+            transform: scale(0.9);
+            transition: all 0.3s ease-in-out;
+        }
+        
+        /* Когда окно видимо, оно увеличивается до 100% */
+        .popup-visible .popup-content {
+            transform: scale(1);
+        }
+        
+        /* Картинка самолета в Pop-up */
+        .popup-image {
+            max-width: 150px; /* Размер */
+            margin-bottom: 15px; /* Отступ */
+        }
+        
+        .popup-content h2 {
+            font-family: 'Panton Narrow', sans-serif;
+            font-size: 36px;
+            margin-bottom: 15px;
+            color: #f39c12;
+        }
+        
+        .popup-content p {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        .close-popup {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 30px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .close-popup:hover {
+            color: #000;
+        }
+
+
+        /* --- Адаптивность (для мобильных) --- */
+        @media (max-width: 1200px) { 
+             .wrapper {
+                max-width: 95%; 
+             }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                background-attachment: scroll; 
+            }
+            
+            .wrapper {
+                padding: 10px;
+                max-width: 100%; 
+            }
+
+            header h1 {
+                font-size: 36px;
+            }
+            header h1 span {
+                font-size: 40px;
+            }
+
+            h2 { 
+                font-size: 40px;
+            }
+
+            .header-buttons {
+                flex-direction: column;
+                gap: 15px;
+                padding: 0 20px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+
+            .btn-with-icon {
+                display: flex;
+                width: 100%;
+            }
+
+            .about-content {
+                flex-direction: column; 
+                gap: 30px;
+            }
+            
+            .about-video,
+            .about-text {
+                flex-basis: 100%; 
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr; /* 1 колонка */
+            }
+
+            /* Прячем самолетик на мобилке */
+            .plane-near-button {
+                display: none;
+            }
+            
+            .popup-content {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+
+        <header>
+            <img src="images/logo.png" alt="Aviamasters Logo" class="logo">
+            <h1>
+                ТВОЙ ТАЛИСМАН
+                <span>БОГАТСТВА</span>
+            </h1>
+            <div class="header-buttons">
+                <a href="https://luckybear.vip/0uUXlQ" class="btn btn-with-icon">
+                    <img src="images/www.png" alt="" class="btn-icon">
+                    <span>играть</span>
+                </a>
+                
+                <a href="https://t.me/Lucky_Bear_CashWin_bot/app?startapp=bXN0PTB4MWFhNmJiYTFkJm09Uml6eiZjPXNpdGVhbQ" class="btn btn-with-icon">
+                    <img src="images/tgw.png" alt="" class="btn-icon">
+                    <span>играть</span>
+                </a>
+            </div>
+        </header>
+
+        <h2>ОБ ИГРЕ</h2>
+        <section class="about">
+            <div class="about-content">
+                <div class="about-video">
+                    <img src="images/promo.gif" alt="Промо-гифка игры">
+                </div>
+                <div class="about-text">
+                    <h3>Захватывающая игра</h3>
+                    <p>
+                        Aviamasters – это захватывающая игра от компании BGaming, в которой игрок делает ставку до начала полета. Чем больше множителей соберет самолет во время полета тем выше будет выигрыш. Игра предлагает динамичный геймплей с возможностью видеть рост множителя в реальном времени. Вы можете играть в нее на любых устройствах.
+                    </p>
+                    <a href="https://luckybear.vip/0uUXlQ" class="btn">
+                        испытать удачу
+                        <img src="images/plane.png" alt="Декоративный самолетик" class="plane-near-button">
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <h2>ПЛЮСЫ ИГРЫ</h2>
+        <section class="features">
+            <div class="features-grid">
+                
+                <div class="feature-item">
+                    <h4>Простой Геймплей</h4>
+                    <p>Интуитивно понятные правила. Сделайте ставку, следите за полетом самолета, собирающего множетели. После посадки выигрышь ваш</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Крупные Выигрыши</h4>
+                    <p>Благодаря высоким множителям, у каждого игрока есть реальный шанс сорвать большой куш, рискуя даже небольшой суммой.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Доступность 24/7</h4>
+                    <p>Играйте в Aviamasters в любое время и в любом месте. Игра полностью оптимизирована для всех мобильных устройств и планшетов.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Честный Процесс</h4>
+                    <p>Игра использует технологию Provably Fair, что гарантирует 100% честность каждого раунда. Вы можете проверить результат игры.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Играйте ответственно. Только для лиц старше 18 лет.</p>
+            <p>© 2025 Aviamasters. Все права защищены.</p>
+        </footer>
+
+    </div> 
+    
+    <div id="popup-overlay" class="popup">
+        <div class="popup-content">
+            <span id="close-popup" class="close-popup">&times;</span>
+            <img src="images/plane.png" alt="Самолет" class="popup-image">
+            <h2>Поздравляем!</h2>
+            <p>Вам доступно 20 бесплатных полетов</p>
+            <a href="https://luckybear.vip/0uUXlQ" id="claim-button" class="btn">Забрать</a>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const overlay = document.getElementById('popup-overlay');
+            const closeBtn = document.getElementById('close-popup');
+            const claimBtn = document.getElementById('claim-button');
+
+            function showPopup() {
+                overlay.classList.add('popup-visible'); // Добавляем класс для анимации
+            }
+
+            function hidePopup() {
+                overlay.classList.remove('popup-visible'); // Убираем класс
+            }
+
+            // Показываем pop-up через 15 секунд
+            setTimeout(showPopup, 15000); 
+
+            // Навешиваем обработчики кликов
+            closeBtn.addEventListener('click', hidePopup);
+            claimBtn.addEventListener('click', hidePopup);
+
+            overlay.addEventListener('click', function(event) {
+                if (event.target === overlay) {
+                    hidePopup();
+                }
+            });
+        });
+    </script>
+    
+</body>
+</html>
