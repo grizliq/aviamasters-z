@@ -115,6 +115,7 @@
             transition: all 0.3s ease;
             position: relative; 
             cursor: pointer;
+            border: none; 
         }
 
         .btn-with-icon {
@@ -164,13 +165,20 @@
 
         .about-video {
             flex: 0 0 46%; 
+            position: relative; 
         }
 
-        .about-video img {
+        /* Стили для медиа-контента (картинка и видео) */
+        .media-content {
             width: 100%;
             border-radius: 20px; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             display: block; 
+        }
+
+        /* Скрываем видео по умолчанию */
+        #game-video {
+            display: none;
         }
 
         .about-text {
@@ -255,7 +263,7 @@
             margin-bottom: 5px;
         }
         
-        /* --- ИСПРАВЛЕНИЕ: 3. Стили для Pop-up (с анимацией) --- */
+        /* --- Стили для Pop-up (с анимацией) --- */
         .popup {
             position: fixed;
             z-index: 1000;
@@ -263,7 +271,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.6);
+            background-color: rgba(0,0,0,0.8); 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -283,12 +291,13 @@
         .popup-content {
             font-family: 'Etude Noire', sans-serif;
             background-color: #fff;
-            padding: 30px 40px;
+            padding: 40px;
             border-radius: 20px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             position: relative;
-            max-width: 400px;
+            max-width: 500px;
+            width: 90%;
             
             /* Анимация "выпрыгивания" */
             transform: scale(0.9);
@@ -302,21 +311,23 @@
         
         /* Картинка самолета в Pop-up */
         .popup-image {
-            max-width: 150px; /* Размер */
-            margin-bottom: 15px; /* Отступ */
+            max-width: 150px; 
+            margin-bottom: 15px; 
         }
         
         .popup-content h2 {
             font-family: 'Panton Narrow', sans-serif;
-            font-size: 36px;
+            font-size: 42px; 
             margin-bottom: 15px;
             color: #f39c12;
+            line-height: 1.1;
         }
         
         .popup-content p {
-            font-size: 20px;
+            font-size: 22px;
             color: #333;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            line-height: 1.3;
         }
 
         .close-popup {
@@ -397,8 +408,15 @@
             }
             
             .popup-content {
-                width: 90%;
-                padding: 20px;
+                padding: 30px 20px;
+            }
+            
+            .popup-content h2 {
+                font-size: 32px;
+            }
+            
+            .popup-content p {
+                font-size: 18px;
             }
         }
     </style>
@@ -414,12 +432,12 @@
                 <span>БОГАТСТВА</span>
             </h1>
             <div class="header-buttons">
-                <a href="https://luckybear.vip/0uUXlQ" class="btn btn-with-icon">
+                <a href="https://lbgame777.xyz/0rQo4I" class="btn btn-with-icon">
                     <img src="images/www.png" alt="" class="btn-icon">
                     <span>играть</span>
                 </a>
                 
-                <a href="https://t.me/Lucky_Bear_SpinPro_Bot/app?startapp=bXN0PTB4MWFhNmJiYTFkJm09Uml6eiZjPXNpdGVhbW4" class="btn btn-with-icon">
+                <a href="https://t.me/LuckyBearPlayBot" class="btn btn-with-icon">
                     <img src="images/tgw.png" alt="" class="btn-icon">
                     <span>играть</span>
                 </a>
@@ -430,17 +448,23 @@
         <section class="about">
             <div class="about-content">
                 <div class="about-video">
-                    <img src="images/promo.gif" alt="Промо-гифка игры">
+                    <img src="images/preview.png" alt="Превью игры" id="video-preview" class="media-content">
+                    
+                    <video id="game-video" class="media-content" playsinline>
+                        <source src="images/promo.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает видео.
+                    </video>
                 </div>
                 <div class="about-text">
                     <h3>Захватывающая игра</h3>
                     <p>
                         Aviamasters – это захватывающая игра от компании BGaming, в которой игрок делает ставку до начала полета. Чем больше множителей соберет самолет во время полета тем выше будет выигрыш. Игра предлагает динамичный геймплей с возможностью видеть рост множителя в реальном времени. Вы можете играть в нее на любых устройствах.
                     </p>
-                    <a href="https://luckybear.vip/0uUXlQ" class="btn">
+                    
+                    <button id="start-game-btn" class="btn">
                         испытать удачу
                         <img src="images/plane.png" alt="Декоративный самолетик" class="plane-near-button">
-                    </a>
+                    </button>
                 </div>
             </div>
         </section>
@@ -479,9 +503,11 @@
         <div class="popup-content">
             <span id="close-popup" class="close-popup">&times;</span>
             <img src="images/plane.png" alt="Самолет" class="popup-image">
-            <h2>Поздравляем!</h2>
-            <p>Вам доступно 20 бесплатных полетов</p>
-            <a href="https://luckybear.vip/0uUXlQ" id="claim-button" class="btn">Забрать</a>
+            
+            <h2>Вы могли выиграть 43 250 ₽</h2>
+            <p>Удача явно на вашей стороне<br>Попробуйте сейчас</p>
+            
+            <a href="https://lbgame777.xyz/0rQo4I" id="claim-button" class="btn">Играть</a>
         </div>
     </div>
     
@@ -491,19 +517,45 @@
             const overlay = document.getElementById('popup-overlay');
             const closeBtn = document.getElementById('close-popup');
             const claimBtn = document.getElementById('claim-button');
+            
+            const startBtn = document.getElementById('start-game-btn');
+            const previewImg = document.getElementById('video-preview');
+            const videoPlayer = document.getElementById('game-video');
+            
+            let gameStarted = false; 
 
             function showPopup() {
-                overlay.classList.add('popup-visible'); // Добавляем класс для анимации
+                overlay.classList.add('popup-visible');
             }
 
             function hidePopup() {
-                overlay.classList.remove('popup-visible'); // Убираем класс
+                overlay.classList.remove('popup-visible');
             }
 
-            // Показываем pop-up через 15 секунд
-            setTimeout(showPopup, 15000); 
+            // Логика кнопки "Испытать удачу"
+            startBtn.addEventListener('click', function(e) {
+                e.preventDefault(); 
+                
+                if (!gameStarted) {
+                    // ПЕРВОЕ НАЖАТИЕ: Запуск видео и таймера
+                    gameStarted = true;
+                    
+                    previewImg.style.display = 'none';
+                    videoPlayer.style.display = 'block';
+                    
+                    videoPlayer.play().catch(function(error) {
+                        console.log("Автовоспроизведение заблокировано браузером или ошибка:", error);
+                        videoPlayer.controls = true;
+                    });
+                    
+                    setTimeout(showPopup, 15000); // Таймер 15 сек
+                } else {
+                    // ПОВТОРНОЕ НАЖАТИЕ: Сразу показываем окно
+                    showPopup();
+                }
+            });
 
-            // Навешиваем обработчики кликов
+            // Навешиваем обработчики кликов закрытия попапа
             closeBtn.addEventListener('click', hidePopup);
             claimBtn.addEventListener('click', hidePopup);
 
@@ -518,8 +570,3 @@
 </body>
 
 </html>
-
-
-
-
-
